@@ -15,7 +15,12 @@ const COINMARKETCAP_API_KEY = process.env.COINMARKETCAP_API_KEY || ""
 module.exports = {
     defaultNetwork: "hardhat",
 
+    etherscan: {
+        apiKey: ETHERSCAN_API_KEY,
+    },
+
     solidity: "0.8.18",
+
     gasReporter: {
         enabled: false,
         outputFile: "gas-report.txt",
