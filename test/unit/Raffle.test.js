@@ -110,7 +110,7 @@ const chainId = network.config.chainId
               it("revokes  when upKeepNeeded is false", async () => {
                   await expect(raffle.performUpkeep("0x")).to.be.revertedWithCustomError(
                       raffle,
-                      "Raffle__UpkeepNeeded",
+                      "Raffle__UpkeepNotNeeded",
                   )
               })
               it("updates raffle state, emits event and calls vrf coordinator", async () => {

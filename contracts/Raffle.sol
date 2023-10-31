@@ -8,7 +8,7 @@ import "@chainlink/contracts/src/v0.8/automation/AutomationCompatible.sol";
 error Raffle__InsufficientEntranceFee();
 error Raffle__TransferFailed();
 error Raffle__NotOpen();
-error Raffle__UpkeepNeeded(uint256 currentBalance, uint256 numPlayers, uint256 raffleState);
+error Raffle__UpkeepNotNeeded(uint256 currentBalance, uint256 numPlayers, uint256 raffleState);
 
 contract Raffle is VRFConsumerBaseV2, AutomationCompatibleInterface {
     /**Type Variables */
@@ -51,7 +51,7 @@ contract Raffle is VRFConsumerBaseV2, AutomationCompatibleInterface {
     modifier checkUpkeepNeeded() {
         (bool upkeepNeeded, ) = checkUpkeep("");
         if (!upkeepNeeded) {
-            revert Raffle__UpkeepNeeded(
+            revert Raffle__UpkeepNotNeeded(
                 address(this).balance,
                 s_players.length,
                 uint256(s_raffleState)
@@ -94,7 +94,8 @@ contract Raffle is VRFConsumerBaseV2, AutomationCompatibleInterface {
         bool timePassed = (block.timestamp - s_lastTimeStamp) > i_interval;
         bool hasPlayers = (s_players.length > 0);
         bool hasBalance = (address(this).balance > 0);
-        upkeepNeeded = isOpen && timePassed && hasPlayers && hasPlayers && hasBalance;
+        upkeepNeeded = (isOpen && timePassed && hasPlayers && hasBalance);
+        return (upkeepNeeded, "0x");
     }
 
     function performUpkeep(bytes calldata /* performData */) external override checkUpkeepNeeded {
