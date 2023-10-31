@@ -36,4 +36,7 @@ module.exports = {
             blockConfirmations: 6,
         },
     },
+    mocha: {
+        timeout: 300000, // 300s
+    },
 }
