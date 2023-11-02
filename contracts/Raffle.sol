@@ -79,6 +79,10 @@ contract Raffle is VRFConsumerBaseV2, AutomationCompatibleInterface {
         s_lastTimeStamp = block.timestamp;
     }
 
+    receive() external payable {}
+
+    fallback() external payable {}
+
     function enterRaffle() public payable checkEntranceFee checkRaffleState {
         s_players.push(payable(msg.sender));
         emit RaffleEnter(msg.sender);
